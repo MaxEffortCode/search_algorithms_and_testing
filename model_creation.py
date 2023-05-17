@@ -4,6 +4,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 import csv
 import os
 import math
+import random
 import time
 
 #################### global variables ####################
@@ -92,42 +93,23 @@ def save_csv_file(file_name, nStrings, timeTaken):
 ############# Main #####################
 if __name__ == '__main__':
     
-    for csv_file in os.listdir("./datasets/"):
-        #if file is not csv skip
-        if not csv_file.endswith('.csv'):
-            continue
-        
-        original_list = load_csv(f"./datasets/{csv_file}")
-
-        model = PolyFuzz("TF-IDF")
-        
-        #start the timer
-        start = time.time()
-        
-        model.fit(original_list)
-        model.save(f"./models/{len(original_list)}_model_train")
-        
-        end = time.time()
-        
-        #calculate the time taken to train the model
-        timeTaken = end - start
-        #save the csv file
-        save_csv_file("Model_Training", len(original_list), timeTaken)
+    for year in range(1993, 2023):
+        for qrt in range(1,5):
+            print(f"Creating model for year: {year} Quarter: {qrt}")
+            csv_file = f"./resources/{year}/{qrt}/lookup/name.csv"
+            company_list = load_csv(csv_file)
+            model = PolyFuzz("TF-IDF")
+            model.fit(company_list)
+            #make a directory to save the model
+            os.makedirs(f"./resources/{year}/{qrt}/models", exist_ok=True)
+            model.save(f"./resources/{year}/{qrt}/models/c_name_model")
+            #del the model to free up memory
+            del model
+            #delete the old model file if it exists
+            if os.path.exists(f"./resources/{year}/{qrt}/comp_name_model"):
+                os.remove(f"./resources/{year}/{qrt}/comp_name_model")
+            print(f"Model created for year: {year} Quarter: {qrt}")
+            
  
-    
-
-from_list = load_csv("/media/max/2AB8BBD1B8BB99B1/MntStn/Apps/Collection/src/resources/2020/1/lookup/name.csv")
-#print the first 5 elements of the list
-print(from_list[:5])
-to_list = ["LAUDER LEONARD", "LANDEC CORP"]
-
-model = PolyFuzz("TF-IDF")
-model.fit(from_list)
-# Save the model
-model.save("./models/my_model")
-
-#result = model.transform(to_list)
-
-#model = PolyFuzz("TF-IDF").match(from_list, to_list)
-#print(model.get_matches())
-#print(result)
+ 
+ 
