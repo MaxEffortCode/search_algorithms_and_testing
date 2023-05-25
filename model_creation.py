@@ -3,9 +3,9 @@ from sklearn.datasets import fetch_20newsgroups
 from sklearn.feature_extraction.text import CountVectorizer
 import csv
 import os
-import math
 import random
-import time
+import threading
+from concurrent.futures import ThreadPoolExecutor
 
 #################### global variables ####################
 fuzzyPath = "./fuzzydatasets/fuzzydata.csv"
@@ -90,26 +90,28 @@ def save_csv_file(file_name, nStrings, timeTaken):
 ########## end csv functions #################
 
 
+def create_model(year, qrt):
+    print(f"Creating model for year: {year} Quarter: {qrt}")
+    csv_file = f"./resources/{year}/{qrt}/lookup/name.csv"
+    company_list = load_csv(csv_file)
+    model = PolyFuzz("TF-IDF")
+    model.fit(company_list)
+    # Make a directory to save the model
+    os.makedirs(f"./resources/{year}/{qrt}/models", exist_ok=True)
+    model.save(f"./resources/{year}/{qrt}/models/c_name_model")
+    # Delete the model to free up memory
+    del model
+    # Delete the old model file if it exists
+    if os.path.exists(f"./resources/{year}/{qrt}/comp_name_model"):
+        os.remove(f"./resources/{year}/{qrt}/comp_name_model")
+    print(f"Model created for year: {year} Quarter: {qrt}")
+
+
 ############# Main #####################
 if __name__ == '__main__':
+    threads = []
     
-    for year in range(1993, 2023):
-        for qrt in range(1,5):
-            print(f"Creating model for year: {year} Quarter: {qrt}")
-            csv_file = f"./resources/{year}/{qrt}/lookup/name.csv"
-            company_list = load_csv(csv_file)
-            model = PolyFuzz("TF-IDF")
-            model.fit(company_list)
-            #make a directory to save the model
-            os.makedirs(f"./resources/{year}/{qrt}/models", exist_ok=True)
-            model.save(f"./resources/{year}/{qrt}/models/c_name_model")
-            #del the model to free up memory
-            del model
-            #delete the old model file if it exists
-            if os.path.exists(f"./resources/{year}/{qrt}/comp_name_model"):
-                os.remove(f"./resources/{year}/{qrt}/comp_name_model")
-            print(f"Model created for year: {year} Quarter: {qrt}")
-            
- 
- 
- 
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        for year in range(1993, 2023):
+            for qrt in range(1,5):
+                executor.submit(create_model, year, qrt)

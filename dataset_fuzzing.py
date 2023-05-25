@@ -46,22 +46,24 @@ def char_edit_distance(c1, c2):
 
 def random_edit(string):
     # Choose a random character in the string
-    index = random.randint(0, len(string) - 1)
-    char = string[index]
+    try:
+        index = random.randint(0, len(string) - 1)
+        char = string[index]
 
-    # Generate a list of possible replacement characters
-    alphabet = ascii_lowercase
-    candidates = [c for c in alphabet if char_edit_distance(char, c) <= 1 and c != char]
-    #print(f"candidates: {candidates}")
+        # Generate a list of possible replacement characters
+        alphabet = ascii_lowercase
+        candidates = [c for c in alphabet if char_edit_distance(char, c) <= 1 and c != char]
+        #print(f"candidates: {candidates}")
 
-    # Choose a replacement character at random
-    if candidates:
-        replacement = random.choice(candidates)
-        edited_string = string[:index] + replacement + string[index+1:]
-        return edited_string
-    else:
+        # Choose a replacement character at random
+        if candidates:
+            replacement = random.choice(candidates)
+            edited_string = string[:index] + replacement + string[index+1:]
+            return edited_string
+        else:
+            return string
+    except:
         return string
-
 
 #the function randomly swaps a vowel in the string with another vowel
 def random_vowel_swap(string):
@@ -119,8 +121,8 @@ def append_to_csv(list, path = fuzzyPath):
 
 #function that takes in n number of lines from a csv file
 # and returns a list of strings from the csv file
-def get_csv_lines_randomly(n):
-    csvLines = load_csv(csvFilePath)
+def get_csv_lines_randomly(n, path = csvFilePath):
+    csvLines = load_csv(path)
     #choose "n" random lines from the csv file
     csvLines = random.sample(csvLines, n)
     
@@ -193,30 +195,33 @@ if __name__ == '__main__':
     # then the list is fuzzed
     # then the fuzzed list is appended to the csv file
     
-    for i in range(2,6):
-        nLines = (i+1)**6
-        print(f"nLines: {nLines}")
+    nLines = 5000
+    for year in range(1994,2023):
+        for qtr in range(1,5):
+            
+            print(f"nLines: {nLines}")
+            print(f" getting lines from ./resources/{year}/{qtr}/lookup/name.csv")
+            lines = get_csv_lines_randomly(nLines, path=f"./resources/{year}/{qtr}/lookup/name.csv")
         
-        lines = get_csv_lines_randomly(nLines)
-        append_to_csv(lines, path=f"./datasets/{i}_original.csv")
-        print(f"original lines: \n {lines}\n")
-        
-        fuzzed_lines_edit_distance = fuzz_list_edit_distance_substitution(lines)
-        append_to_csv(fuzzed_lines_edit_distance, path=f"./fuzzydatasets/{i}_fuzzed_edit_distance.csv")
-        print(f"fuzzed_lines_edit_distance: \n {fuzzed_lines_edit_distance}\n")
-        
-        fuzzed_lines_vowel_swap = fuzz_list_vowel_swap_substitution(lines)
-        append_to_csv(fuzzed_lines_vowel_swap, path=f"./fuzzydatasets/{i}_fuzzed_vowel_swap.csv")
-        print(f"fuzzed_lines_vowel_swap: \n {fuzzed_lines_vowel_swap}\n")
-        
-        fuzzed_lines_ommission = fuzz_list_ommission(lines)
-        append_to_csv(fuzzed_lines_ommission, path=f"./fuzzydatasets/{i}_fuzzed_ommission.csv")
-        print(f"fuzzed_lines_ommission: \n {fuzzed_lines_ommission}\n")
-        
-        fuzzed_lines_transpose = fuzz_list_transpose(lines)
-        append_to_csv(fuzzed_lines_transpose, path=f"./fuzzydatasets/{i}_fuzzed_transpose.csv")
-        print(f"fuzzed_lines_transpose: \n {fuzzed_lines_transpose}\n")
-        
-        fuzzed_lines_insertion = fuzz_list_insertion(lines)
-        append_to_csv(fuzzed_lines_insertion, path=f"./fuzzydatasets/{i}_fuzzed_insertion.csv")
-        print(f"fuzzed_lines_insertion: \n {fuzzed_lines_insertion}\n")
+            append_to_csv(lines, path=f"./resources/{year}/{qtr}/lookup/test_data_original.csv")
+            print(f"original lines: \n {lines}\n")
+            
+            fuzzed_lines_edit_distance = fuzz_list_edit_distance_substitution(lines)
+            append_to_csv(fuzzed_lines_edit_distance, path=f"./resources/{year}/{qtr}/lookup/substitution_test.csv")
+            print(f"fuzzed_lines_edit_distance: \n {fuzzed_lines_edit_distance}\n")
+            
+            fuzzed_lines_vowel_swap = fuzz_list_vowel_swap_substitution(lines)
+            append_to_csv(fuzzed_lines_vowel_swap, path=f"./resources/{year}/{qtr}/lookup/swap_test.csv")
+            print(f"fuzzed_lines_vowel_swap: \n {fuzzed_lines_vowel_swap}\n")
+            
+            fuzzed_lines_ommission = fuzz_list_ommission(lines)
+            append_to_csv(fuzzed_lines_ommission, path=f"./resources/{year}/{qtr}/lookup/ommision_test.csv")
+            print(f"fuzzed_lines_ommission: \n {fuzzed_lines_ommission}\n")
+            
+            fuzzed_lines_transpose = fuzz_list_transpose(lines)
+            append_to_csv(fuzzed_lines_transpose, path=f"./resources/{year}/{qtr}/lookup/transposition_test.csv")
+            print(f"fuzzed_lines_transpose: \n {fuzzed_lines_transpose}\n")
+            
+            fuzzed_lines_insertion = fuzz_list_insertion(lines)
+            append_to_csv(fuzzed_lines_insertion, path=f"./resources/{year}/{qtr}/lookup/inserstion_test.csv")
+            print(f"fuzzed_lines_insertion: \n {fuzzed_lines_insertion}\n")
