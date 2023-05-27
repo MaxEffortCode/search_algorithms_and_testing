@@ -6,6 +6,10 @@ import csv
 import os
 import math
 import time
+#import from parent directory
+import sys
+sys.path.append("..")
+from model_creation import *
 
 #################### global variables ####################
 fuzzyPath = "./fuzzydatasets/fuzzydata.csv"
@@ -93,20 +97,21 @@ def save_csv_file(file_name, num_correct, num_incorrect, num_unmatched, num_tota
 
 ############# Main #####################
 if __name__ == '__main__':
-    for year in range(1993, 2023):
+    for year in range(1996, 2023):
         for qrt in range(1,5):
             path=f"./resources/{year}/{qrt}/lookup/"
             for csv_file in os.listdir(path):
                 if csv_file.endswith('.csv') and not csv_file.__contains__("name"):
                     fuzzed_list = load_csv(path + csv_file)
                     original_list = load_csv(f"./resources/{year}/{qrt}/lookup/test_data_original.csv")
-                    model = PolyFuzz.load(f"./resources/{year}/{qrt}/models/c_name_model")
+                    model = PolyFuzz.load(f"./resources/{year}/{qrt}/models/c_name_model_custom")
                     
                     start = time.time()
                     correct, incorrect, itemNum = 0, 0, 0
                     for item in fuzzed_list:
                         to_list = [item]
                         result = model.transform(to_list)
+                        #print(f"result: {result}")
                         
                         if result['TF-IDF'].values[0][1] == original_list[itemNum]:
                             correct += 1

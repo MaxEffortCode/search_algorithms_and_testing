@@ -160,3 +160,57 @@
 4484,516,0,5000,40.41224026679993,['substitution_test']
 ###### end generic td ifd model ###############
 
+#embeddings
+1849,0,8151,10000,100.02255606651306,['test_data_original']
+
+#(x , y)  as x (spacing of logs) grows speed increases accuracy decreases
+#(x , y) as y (size of logs) grows speed increases accuracy decreases
+
+#TFIDF(n_gram_range=(1, 3), clean_string=False, min_similarity=0.4, top_n=1, cosine_method="sklearn", model_id="Custom-TF-IDF")
+7587,0,2413,10000,100.00237703323364,['test_data_original']
+
+#TFIDF(n_gram_range=(2, 3), clean_string=False, min_similarity=0.4, top_n=1, cosine_method="sklearn", model_id="Custom-TF-IDF")
+9529,222,249,10000,100.00952553749084,['test_data_original']
+
+#TFIDF(n_gram_range=(3, 3), clean_string=False, min_similarity=0.4, top_n=1, cosine_method="sklearn", model_id="Custom-TF-IDF")
+9005,995,0,10000,64.42929005622864,['test_data_original']
+8529,1471,0,10000,62.569297075271606,['ommision_test']
+
+#TFIDF(n_gram_range=(3, 4), clean_string=False, min_similarity=0.4, top_n=1, cosine_method="sklearn", model_id="Custom-TF-IDF")
+8987,1013,0,10000,84.51626467704773,['test_data_original']
+
+#TFIDF(n_gram_range=(4, 4), clean_string=False, min_similarity=0.4, top_n=1, cosine_method="sklearn", model_id="Custom-TF-IDF")
+7836,2164,0,10000,37.38907289505005,['test_data_original']
+
+#TFIDF(n_gram_range=(3, 5), clean_string=False, min_similarity=0.4, top_n=1, cosine_method="sklearn", model_id="Custom-TF-IDF")
+8827,992,181,10000,100.00211977958679,['test_data_original']
+
+#TFIDF(n_gram_range=(4, 5), clean_string=False, min_similarity=0.4, top_n=1, cosine_method="sklearn", model_id="Custom-TF-IDF")
+7830,2170,0,10000,71.17190027236938,['test_data_original']
+
+#TFIDF(n_gram_range=(5, 5), clean_string=False, min_similarity=0.4, top_n=1, cosine_method="sklearn", model_id="Custom-TF-IDF")
+7200,2800,0,10000,33.97641682624817,['test_data_original']
+
+#TFIDF(n_gram_range=(1, 2), clean_string=False, min_similarity=0.4, top_n=1, cosine_method="sklearn", model_id="Custom-TF-IDF")
+9997,3,0,10000,97.86824011802673,['test_data_original']
+
+#TFIDF(n_gram_range=(2, 2), clean_string=False, min_similarity=0.4, top_n=1, cosine_method="sklearn", model_id="Custom-TF-IDF")
+9757,243,0,10000,72.78669929504395,['test_data_original']
+
+#TFIDF(n_gram_range=(2, 2), clean_string=False, min_similarity=0.0, top_n=1, cosine_method="sklearn", model_id="Custom-TF-IDF")
+9757,243,0,10000,72.96022915840149,['test_data_original']
+
+#TFIDF(n_gram_range=(2, 2), clean_string=False, min_similarity=0.8, top_n=1, cosine_method="sklearn", model_id="Custom-TF-IDF")
+9757,243,0,10000,72.80460023880005,['test_data_original']
+
+#TFIDF(n_gram_range=(2, 2), clean_string=False, min_similarity=0.99, top_n=1, cosine_method="sklearn", model_id="Custom-TF-IDF")
+9757,243,0,10000,71.92603635787964,['test_data_original']
+
+#TFIDF(n_gram_range=(2, 2), clean_string=False, min_similarity=0.99, top_n=1, cosine_method="knn", model_id="Custom-TF-IDF")
+6261,154,3585,10000,100.01148653030396,['test_data_original']
+
+#TFIDF(n_gram_range=(2, 2), clean_string=False, min_similarity=0.99, top_n=1, cosine_method="sparse", model_id="Custom-TF-IDF")
+9757,243,0,10000,71.29388284683228,['test_data_original']
+
+#CustomTFIDF(n_gram_range=(2, 2), clean_string=False, min_similarity=0.99, top_n=1, cosine_method="knn", model_id="Custom-TF-IDF")
+6216,153,3631,10000,100.00066876411438,['test_data_original']
